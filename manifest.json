@@ -1,0 +1,25 @@
+{
+  "name": "Page Redder",
+  "description": "Make the current page red",
+  "version": "2.0",
+  "permissions": [
+    "activeTab" 
+    , "storage"
+    ,"background"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://*.dogdrip.net/*"],
+      "js": ["dogdrip.js"]
+    }
+  ],
+
+  "browser_action": {
+    "default_title": "Make this page red",
+    "default_popup": "popup.html"
+    
+  },
+  "manifest_version": 2
+  
+  
+}
