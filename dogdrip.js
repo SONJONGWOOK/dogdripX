@@ -1,14 +1,32 @@
+if(document.location.href == 'https://www.dogdrip.net/') {
+    console.log("DDDDDDDDDDDDD             OOOOOOOOO             GGGGGGGGGGGGGDDDDDDDDDDDDD      RRRRRRRRRRRRRRRRR   IIIIIIIIIIPPPPPPPPPPPPPPPPP   \r\n"
+    +"D::::::::::::DDD        OO:::::::::OO        GGG::::::::::::GD::::::::::::DDD   R::::::::::::::::R  I::::::::IP::::::::::::::::P  \r\n"
+    +"D:::::::::::::::DD    OO:::::::::::::OO    GG:::::::::::::::GD:::::::::::::::DD R::::::RRRRRR:::::R I::::::::IP::::::PPPPPP:::::P \r\n"
+    +"DDD:::::DDDDD:::::D  O:::::::OOO:::::::O  G:::::GGGGGGGG::::GDDD:::::DDDDD:::::DRR:::::R     R:::::RII::::::IIPP:::::P     P:::::P\r\n"
+    +"  D:::::D    D:::::D O::::::O   O::::::O G:::::G       GGGGGG  D:::::D    D:::::D R::::R     R:::::R  I::::I    P::::P     P:::::P\r\n"
+    +"  D:::::D     D:::::DO:::::O     O:::::OG:::::G                D:::::D     D:::::DR::::R     R:::::R  I::::I    P::::P     P:::::P\r\n"
+    +"  D:::::D     D:::::DO:::::O     O:::::OG:::::G                D:::::D     D:::::DR::::RRRRRR:::::R   I::::I    P::::PPPPPP:::::P \r\n"
+    +"  D:::::D     D:::::DO:::::O     O:::::OG:::::G    GGGGGGGGGG  D:::::D     D:::::DR:::::::::::::RR    I::::I    P:::::::::::::PP  \r\n"
+    +"  D:::::D     D:::::DO:::::O     O:::::OG:::::G    G::::::::G  D:::::D     D:::::DR::::RRRRRR:::::R   I::::I    P::::PPPPPPPPP    \r\n"
+    +"  D:::::D     D:::::DO:::::O     O:::::OG:::::G    GGGGG::::G  D:::::D     D:::::DR::::R     R:::::R  I::::I    P::::P            \r\n"
+    +"  D:::::D     D:::::DO:::::O     O:::::OG:::::G        G::::G  D:::::D     D:::::DR::::R     R:::::R  I::::I    P::::P            \r\n"
+    +"  D:::::D    D:::::D O::::::O   O::::::O G:::::G       G::::G  D:::::D    D:::::D R::::R     R:::::R  I::::I    P::::P            \r\n"
+    +"DDD:::::DDDDD:::::D  O:::::::OOO:::::::O  G:::::GGGGGGGG::::GDDD:::::DDDDD:::::DRR:::::R     R:::::RII::::::IIPP::::::PP          \r\n"
+    +"D:::::::::::::::DD    OO:::::::::::::OO    GG:::::::::::::::GD:::::::::::::::DD R::::::R     R:::::RI::::::::IP::::::::P          \r\n"
+    +"D::::::::::::DDD        OO:::::::::OO        GGG::::::GGG:::GD::::::::::::DDD   R::::::R     R:::::RI::::::::IP::::::::P          \r\n"
+    +"DDDDDDDDDDDDD             OOOOOOOOO             GGGGGG   GGGGDDDDDDDDDDDDD      RRRRRRRR     RRRRRRRIIIIIIIIIIPPPPPPPPPP + extension")
+}
 let type
 const comment = (el) =>{
 
     if(type == 'poly') {
-        el.parentNode.innerHTML = '<div>차단</div>'
+        el.parentNode.innerHTML = '<div style="text-align:center;" >차단</div>'
     }else{
         el.parentNode.style.display="none"
     }
 }
 const board = (el) =>{
-    console.log(type)
+    
     if(type == 'poly') {
         el.parentNode.innerHTML = '<td colspan="5" style="text-align:center;">차단</td>'
     }else{
@@ -30,7 +48,7 @@ const callBack = (key , val  , addMember ) =>{
 
     val.push(addMember)
     chrome.storage.sync.set( {'block' : val }, () => {
-        console.log('set to data :' , val)
+        // console.log('set to data :' , val)
     })
 }
 
@@ -49,7 +67,7 @@ const check = (e) =>{
             origin.querySelector('#block').addEventListener('click' , (event) =>{
                 processStorage('block' , callBack , member)   
 
-                console.log(event)
+                // console.log(event)
                 let list = document.querySelectorAll('tbody .author')
 
                 Array.from(list).forEach( (el) => {
@@ -58,7 +76,7 @@ const check = (e) =>{
                     auth = auth.substring(auth.search("_")+1)
                     if(auth == member) {
                         board(el)
-                        // el.parentNode.innerHTML = '<td colspan="5" style="text-align:center;">차단</td>'
+                       
                     }                    
                 })
                 
@@ -68,7 +86,7 @@ const check = (e) =>{
                     auth = auth.substring(auth.search("member_"))
                     auth = auth.substring(auth.search("_")+1)
                     if(auth == member) {
-                        // el.parentNode.innerHTML = '<div style="text-align:center;">차단</div>'
+                      
                         comment(el)
                     }                    
                 })
@@ -87,8 +105,6 @@ const substrAuth = (el) => {
 
     return auth
 }
-
-
 const boardHideDom = (blockList) =>{
 
     let list = document.querySelectorAll('tbody .author')
@@ -97,7 +113,7 @@ const boardHideDom = (blockList) =>{
 
         if(blockList.block.includes(auth) ) {
             board(el)
-            // el.parentNode.innerHTML = '<td colspan="5" style="text-align:center;">차단</td>'
+        
         }
     })
 }
@@ -109,46 +125,32 @@ const commentHideDom = (blockList) =>{
 
         if(blockList.block.includes(auth) ) {
             comment(el)
-            // el.parentNode.innerHTML = '<div style="text-align:center;">차단</div>'
+         
         }
     })
 }
 
-
-
-
 chrome.storage.sync.get('type' , (result) =>{
    type = result.type
-   console.log("change type ",type)
    if(type == undefined || type == null){
        type = "poly"
-   }
-
-   chrome.storage.sync.get('block' , (result) =>{
-   
+    }
+    
+    chrome.storage.sync.get('block' , (result) =>{
         if(result.block != undefined || result.block != null){
-            
             if(document.location.href.includes('dogdrip.net/dogdrip')) {
                 boardHideDom(result)
             }else{
                 commentHideDom(result)
                 boardHideDom(result)
             }
-
         }  
     })
 
-   document.querySelector('body').addEventListener('DOMSubtreeModified', check )
+    document.querySelector('body').addEventListener('DOMSubtreeModified', check )
 })
-
 chrome.runtime.onMessage.addListener(msgObj => {
-    console.log("sync type " ,msgObj)
+    // console.log("sync type " ,msgObj)
    type = msgObj
 })
 
-// chrome.storage.sync.clear(function() {
-//     var error = chrome.runtime.lastError;
-//     if (error) {
-//         console.error(error);
-//     }
-// })
