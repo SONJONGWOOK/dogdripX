@@ -21,17 +21,40 @@ const comment = (el) =>{
 
     if(type == 'poly') {
         el.parentNode.innerHTML = '<div style="text-align:center;" >차단</div>'
-    }else{
+    }else if(type == 'hide') {
         el.parentNode.style.display="none"
+    }else{
+        blockView(el)
     }
 }
 const board = (el) =>{
     
     if(type == 'poly') {
         el.parentNode.innerHTML = '<td colspan="5" style="text-align:center;">차단</td>'
-    }else{
+    }else if(type == 'hide') {
         el.parentNode.style.display="none"
+    }else{
+        blockView(el)
     }
+}
+
+const blockView  = (el)  =>{
+    let list = el.parentNode.children
+    for (let item of list) {
+        item.style.display="none"
+    }
+    let blockView = document.createElement( 'td' );
+    blockView.innerHTML =  '<a href="javascript:void(0);"} ">차단 보기</a>' 
+    blockView.onclick = () => {
+        el.parentNode.removeChild(blockView)
+        el.parentNode.style.background = "#D3D3D3"
+        for (let item of list) {
+            item.style.display=""
+        }
+    }
+    blockView.style.textAlign  = "center"
+    blockView.colSpan=5
+    el.parentNode.appendChild(blockView)
 }
 
 const processStorage = (key, callback , addMember) =>{

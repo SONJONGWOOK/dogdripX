@@ -1,11 +1,12 @@
 {
   "name": "DogDripX beta",
   "description": "dogrip extension beta",
-  "version": "0.11",
+  "version": "0.123",
   "permissions": [
     "activeTab" 
     , "storage"
     ,"background"
+    , "tabs"
   ],
   "icons": {  "16": "doge16.png",
               "32": "doge32.png",
@@ -24,7 +25,8 @@
     "default_popup": "popup.html",
     "default_icon": "doge.png"
   },
-
+  
+  "content_security_policy": "script-src 'self' https://code.jquery.com https://cdnjs.cloudflare.com/ https://stackpath.bootstrapcdn.com;  object-src 'self'",
 
   "manifest_version": 2
 

@@ -10,6 +10,14 @@ document.querySelector('#reset').addEventListener('click' , () =>{
     })
 })
 
+document.querySelector('#gotoURL').addEventListener('click' , () =>{
+    chrome.tabs.create({url: "https://dogdrip.net"}, function(tab) {
+    })
+})
+
+
+
+
 document.querySelector('form#check').addEventListener('change'  , ()=> {
     type = document.querySelector('input[name="type"]:checked').value
     chrome.storage.sync.set( {'type' : type }, () => {
@@ -45,4 +53,14 @@ chrome.storage.sync.get('type' , (result) =>{
     })
     }
 })
+
+chrome.browserAction.onClicked.addListener(function() {
+    // The event page will unload after handling this event (assuming nothing
+    // else is keeping it awake). The content script will become the main way to
+    // interact with us.
+    chrome.tabs.create({url: "http://google.com"}, function(tab) {
+        alert("test")           
+    });
+  });
+  
 
