@@ -45,14 +45,16 @@ document.querySelector('#update').addEventListener('click' , (e) =>{
         // console.log('e readAsText target result = ', e.target.result)
         let json = JSON.parse(e.target.result)
         chrome.storage.sync.get( (result) =>{
-        //    console.log(result) 
-        //    console.log(json)
-           concatMemoList(result.blockMemo , json)
-
-           if(result.block.length !== result.blockMemo.length){
-            concatList(result.block , result.blockMemo)
-        }
-        drawGrid(result)
+            
+            result.blockMemo =  result.blockMemo == undefined ? []  :  result.blockMemo
+            result.block =  result.block == undefined ? []  :  result.block
+           
+            concatMemoList(result.blockMemo , json)
+        
+            if(result.block.length !== result.blockMemo.length){
+                concatList(result.block , result.blockMemo)
+            }
+            drawGrid(result)
         }) 
     }    
     reader.readAsText(file.files[0]);
@@ -72,21 +74,24 @@ const drawGrid = (result) =>{
         html.innerHTML ="<tr> <th scope='row'>"+(index+1)+"</th> <td>"+value.member+"</td> <td>"+memo+"</td> <td><button type='button' class='btn btn-dark'>REMOVE</button></td> </tr>"    
         el.appendChild(html)
         html.querySelector('button').onclick = () => {
-
+            
             let blockIndex = result.block.indexOf(value.member)
             result.block.splice(blockIndex , 1)
-            list.splice(index , 1)
-            
+            let memoIndex = list.indexOf(value)
+            list.splice(memoIndex , 1)    
             processStorage(callBack, result.block, list)
             html.parentNode.removeChild(html)            
             dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(list))
             document.querySelector('#download').href = dataStr
+            console.log(blockIndex , "  "  , memoIndex)
+            console.log(result.block)
+            console.log(list)
         }
 
     })
 }
 
-const concatMemoList = (oriMemo , addMemo) =>{
+const concatMemoList = (oriMemo, addMemo) =>{
     let oriList = []
     let addList = []
     for(let value of oriMemo){

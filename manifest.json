@@ -1,7 +1,7 @@
 {
   "name": "DogDripX beta",
   "description": "dogrip extension beta",
-  "version": "0.123",
+  "version": "0.1234",
   "permissions": [
     "activeTab" 
     , "storage"
@@ -21,7 +21,7 @@
   ],
 
   "browser_action": {
-    "default_title": "개붕이들의 기능",
+    "default_title": "개붕이들의 은밀한 기능",
     "default_popup": "popup.html",
     "default_icon": "doge.png"
   },
