@@ -15,8 +15,10 @@ document.querySelector('#gotoURL').addEventListener('click' , () =>{
     })
 })
 
-
-
+document.querySelector('#extensionPage').addEventListener('click' , () =>{
+    chrome.tabs.create({url: "./extensionPage.html"}, function(tab) {
+    })
+})
 
 document.querySelector('form#check').addEventListener('change'  , ()=> {
     type = document.querySelector('input[name="type"]:checked').value

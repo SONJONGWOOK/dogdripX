@@ -1,16 +1,23 @@
 <!doctype html>
 <html>
    <meta charset="utf-8">
-  <head>  
+  <head> 
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <title>dogdrip extension</title>
     <style type="text/css">
       body {
         margin: 10px;
-        white-space: nowrap;
+        white-space: wrap;
       }
 
       h1 {
         font-size: 15px;
+      }
+      #btnArea{
+        align-items: center;
+        display: flex;
+        flex-flow: column;
+        justify-content: space-evenly;
       }
 
       #container {
@@ -24,8 +31,15 @@
 
   <body>
     <h1>Dogdrip</h1>
-    <button id="gotoURL" type="button">go dogdrip.net</button>
-    <button id="test" type="button">test</button>
+    <div id="btnArea">
+        <div>
+            <button class="btn btn-primary" id="gotoURL" type="button">go dogdrip.net</button>
+         </div>  
+         <div>
+            <button class="btn btn-success" id="extensionPage" type="button">extensionPage</button>
+          </div>
+    </div>
+   
     <h1>Block Type</h1>
     <div id="container">
     <form id='check' action="">
@@ -34,7 +48,7 @@
         <input type="radio" name="type" value="blockView"> blockView
       </form>
     </div>
-    <button id="reset" type="button">RESET</button>
+    <button class="btn btn-danger" id="reset" type="button">RESET!!!</button>
   </body>
   <script src="popup.js"></script>
   

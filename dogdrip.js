@@ -57,22 +57,30 @@ const blockView  = (el)  =>{
     el.parentNode.appendChild(blockView)
 }
 
-const processStorage = (key, callback , addMember) =>{
-    chrome.storage.sync.get(key, (items) => {
-        callback(key, items[key] , addMember)
+const processStorage = (callback , addMember , memo) =>{
+    chrome.storage.sync.get( (items) => {
+        
+        callback('block', items['block'] , addMember )
+        callback('blockMemo', items['blockMemo'] , memo )
     })
 }
 
-const callBack = (key , val  , addMember ) =>{
+const callBack = (key, val  , addMember ) =>{
 
     if(val == null || val == undefined ) {
         val = []
     }
 
     val.push(addMember)
-    chrome.storage.sync.set( {'block' : val }, () => {
-        // console.log('set to data :' , val)
-    })
+    if(key == 'block'){
+        chrome.storage.sync.set( {'block' : val }, () => {
+            // console.log('set to data :' , val)
+        })
+    }else if(key == 'blockMemo'){
+        chrome.storage.sync.set( {'blockMemo' : val }, () => {
+            // console.log('set to data :' , val)
+        })
+    }
 }
 
 const check = (e) =>{
@@ -88,7 +96,13 @@ const check = (e) =>{
             origin.innerHTML = add
             
             origin.querySelector('#block').addEventListener('click' , (event) =>{
-                processStorage('block' , callBack , member)   
+
+                let memo = prompt("메모장켜라 :", "메모");
+                if (memo == null || memo == "") {
+                    memo = "메모없음"
+                }
+
+                processStorage(callBack , member , {member : member , memo : memo })   
 
                 // console.log(event)
                 let list = document.querySelectorAll('tbody .author')
@@ -160,6 +174,7 @@ chrome.storage.sync.get('type' , (result) =>{
     }
     
     chrome.storage.sync.get('block' , (result) =>{
+        
         if(result.block != undefined || result.block != null){
             if(document.location.href.includes('dogdrip.net/dogdrip')) {
                 boardHideDom(result)
