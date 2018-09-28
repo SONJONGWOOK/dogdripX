@@ -58,7 +58,7 @@ const blockView  = (el)  =>{
 }
 
 const processStorage = (callback , addMember , memo) =>{
-    chrome.storage.sync.get( (items) => {
+    browser.storage.local.get( (items) => {
         
         callback('block', items['block'] , addMember )
         callback('blockMemo', items['blockMemo'] , memo )
@@ -73,11 +73,11 @@ const callBack = (key, val  , addMember ) =>{
 
     val.push(addMember)
     if(key == 'block'){
-        chrome.storage.sync.set( {'block' : val }, () => {
+        browser.storage.local.set( {'block' : val }, () => {
             // console.log('set to data :' , val)
         })
     }else if(key == 'blockMemo'){
-        chrome.storage.sync.set( {'blockMemo' : val }, () => {
+        browser.storage.local.set( {'blockMemo' : val }, () => {
             // console.log('set to data :' , val)
         })
     }
@@ -169,13 +169,13 @@ const commentHideDom = (blockList) =>{
     })
 }
 
-chrome.storage.sync.get('type' , (result) =>{
+browser.storage.local.get('type' , (result) =>{
    type = result.type
    if(type == undefined || type == null){
        type = "poly"
     }
     
-    chrome.storage.sync.get('block' , (result) =>{
+    browser.storage.local.get('block' , (result) =>{
         
         if(result.block != undefined || result.block != null){
             if(document.location.href.includes('dogdrip.net/dogdrip')) {

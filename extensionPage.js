@@ -1,4 +1,4 @@
-chrome.storage.sync.get( (result) =>{
+browser.storage.local.get( (result) =>{
 //    console.log(result)   
     if(result.block != undefined || result.block != null){
         if(result.blockMemo ==undefined || result.block == null){
@@ -44,7 +44,7 @@ document.querySelector('#update').addEventListener('click' , (e) =>{
         // console.log('e readAsText target = ', e.target)
         // console.log('e readAsText target result = ', e.target.result)
         let json = JSON.parse(e.target.result)
-        chrome.storage.sync.get( (result) =>{
+        browser.storage.local.get( (result) =>{
             
             result.blockMemo =  result.blockMemo == undefined ? []  :  result.blockMemo
             result.block =  result.block == undefined ? []  :  result.block
@@ -147,11 +147,11 @@ const callBack = (key, val  ) =>{
     }
     
     if(key == 'block'){
-        chrome.storage.sync.set( {'block' : val }, () => {
+        browser.storage.local.set( {'block' : val }, () => {
             // console.log('set to data :' , val)
         })
     }else if(key == 'blockMemo'){
-        chrome.storage.sync.set( {'blockMemo' : val }, () => {
+        browser.storage.local.set( {'blockMemo' : val }, () => {
             // console.log('set to memo  :' , val)
             alert("변경완료")
         })
