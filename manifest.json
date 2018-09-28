@@ -21,7 +21,7 @@
   ],
 
   "browser_action": {
-    "default_title": "개붕이들의 은밀한 기능",
+    "default_title": "개붕이들의_은밀한_기능_firefox",
     "default_popup": "popup.html",
     "default_icon": "doge.png"
   },
