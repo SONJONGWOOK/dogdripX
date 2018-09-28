@@ -89,6 +89,7 @@ const check = (e) =>{
         let origin = document.querySelector('div#popup_menu_area ul')
         if(origin != undefined || origin != null ){
             let member = origin.children[0].innerHTML
+            
             member = member.substring(member.search("member_srl="))
             member = member.substring(member.search("=")+1 ,member.search("\"") )
             let add = origin.innerHTML + '<li id="block" ><a target="_blank">차단</a></li>'
@@ -96,7 +97,8 @@ const check = (e) =>{
             origin.innerHTML = add
             
             origin.querySelector('#block').addEventListener('click' , (event) =>{
-
+                
+                
                 let memo = prompt("메모장켜라 :", "메모");
                 if (memo == null || memo == "") {
                     memo = "메모없음"

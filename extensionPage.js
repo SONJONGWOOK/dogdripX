@@ -1,5 +1,5 @@
 chrome.storage.sync.get( (result) =>{
-   console.log(result)   
+//    console.log(result)   
     if(result.block != undefined || result.block != null){
         if(result.blockMemo ==undefined || result.block == null){
             result.blockMemo = []
@@ -83,9 +83,7 @@ const drawGrid = (result) =>{
             html.parentNode.removeChild(html)            
             dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(list))
             document.querySelector('#download').href = dataStr
-            console.log(blockIndex , "  "  , memoIndex)
-            console.log(result.block)
-            console.log(list)
+         
         }
 
     })
@@ -150,11 +148,11 @@ const callBack = (key, val  ) =>{
     
     if(key == 'block'){
         chrome.storage.sync.set( {'block' : val }, () => {
-            console.log('set to data :' , val)
+            // console.log('set to data :' , val)
         })
     }else if(key == 'blockMemo'){
         chrome.storage.sync.set( {'blockMemo' : val }, () => {
-            console.log('set to memo  :' , val)
+            // console.log('set to memo  :' , val)
             alert("변경완료")
         })
     }
