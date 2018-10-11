@@ -3,10 +3,12 @@
   "description": "dogrip extension beta",
   "version": "0.1234",
   "permissions": [
-    "activeTab" 
-    , "storage"
-    ,"background"
-    , "tabs"
+    "activeTab" ,
+     "storage",
+    "background",
+     "tabs",
+    "alarms", 
+    "notifications"
   ],
   "icons": {  "16": "doge16.png",
               "32": "doge32.png",
@@ -24,6 +26,10 @@
     "default_title": "개붕이들의 은밀한 기능",
     "default_popup": "popup.html",
     "default_icon": "doge.png"
+  },
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
   },
   
   "content_security_policy": "script-src 'self' https://code.jquery.com https://cdnjs.cloudflare.com/ https://stackpath.bootstrapcdn.com;  object-src 'self'",

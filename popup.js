@@ -1,7 +1,7 @@
 let type
 
 document.querySelector('#reset').addEventListener('click' , () =>{
-    chrome.storage.sync.clear(function() {
+    chrome.storage.sync.clear(()=> {
         var error = chrome.runtime.lastError;
 
         if (error) {
@@ -11,15 +11,25 @@ document.querySelector('#reset').addEventListener('click' , () =>{
 })
 
 document.querySelector('#gotoURL').addEventListener('click' , () =>{
-    chrome.tabs.create({url: "https://dogdrip.net"}, function(tab) {
+    chrome.tabs.create({url: "https://dogdrip.net"}, (tab) => {
     })
 })
 
 document.querySelector('#extensionPage').addEventListener('click' , () =>{
-    chrome.tabs.create({url: "./extensionPage.html"}, function(tab) {
+    chrome.tabs.create({url: "./extensionPage.html"}, (tab) => {
     })
 })
-
+document.querySelector('#noti').addEventListener('click' , () =>{
+    let port = chrome.extension.connect({
+        // name: "Sample Communication"
+    })
+    port.postMessage("Hi BackGround")
+    
+    // port.onMessage.addListener(function(msg) {
+    //     console.log("message recieved" + msg);
+    // })
+    
+})
 document.querySelector('form#check').addEventListener('change'  , ()=> {
     type = document.querySelector('input[name="type"]:checked').value
     chrome.storage.sync.set( {'type' : type }, () => {
@@ -55,3 +65,5 @@ chrome.storage.sync.get('type' , (result) =>{
     })
     }
 })
+
+
