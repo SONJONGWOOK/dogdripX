@@ -19,10 +19,26 @@ if(url == 'https://www.dogdrip.net/') {
     +"DDDDDDDDDDDDD             OOOOOOOOO             GGGGGG   GGGGDDDDDDDDDDDDD      RRRRRRRR     RRRRRRRIIIIIIIIIIPPPPPPPPPP + extension")
 }
 
+//읽은 글 번호 확인할때 
+if(url.match(/www.dogdrip.net\/[0-9]+/gi) != null ){
+   let isDogdrip =  document.querySelector('a.title-underline').innerHTML == '개드립' ? true : false
+   let element = document.querySelector('td.ed.no svg').parentNode.parentNode.nextSibling
+//    console.log(element.tagName)
+   if(isDogdrip && element.tagName == 'TR') {
+    let lastDrip = (element.querySelector('.no').innerHTML).trim()      
+    chrome.storage.sync.get( ['lastDrip'] , (result) =>{
+        // console.log(result , lastDrip , parseInt(result.lastDrip) < parseInt(lastDrip) )
 
-// if(url.match(/www.dogdrip.net\/[0-9]+/gi) != null ){
-//     console.log(url.replace(/[^0-9]/gi ,"") )
-// }
+         if(parseInt(result.lastDrip) < parseInt(lastDrip) ) {
+            chrome.storage.sync.set( {'lastDrip' : lastDrip }, () => {
+                // console.log('set to drip :' , lastDrip)
+           })
+        }
+    })
+
+   }
+   
+}
 
 let type
 const comment = (el) =>{
@@ -202,27 +218,27 @@ chrome.runtime.onMessage.addListener(msgObj => {
 })
 
 // NodeList prototype
-NodeList.prototype.addEventListener = function(event, func) {
-    this.forEach(function(content, item) {
-       content.addEventListener(event, func);
-    })
-}
-document.querySelectorAll('td.title a').addEventListener('click' , (e , func) =>{
+// NodeList.prototype.addEventListener = function(event, func) {
+//     this.forEach(function(content, item) {
+//        content.addEventListener(event, func);
+//     })
+// }
+// document.querySelectorAll('td.title a').addEventListener('click' , (e , func) =>{
 
-    let element = e.target.parentNode.parentNode
-    if( element.tagName != 'TR'){
-        element = element.parentNode
-    }
-    // console.log( (element.querySelector('.no').innerHTML).trim() )
-    let lastDrip = (element.querySelector('.no').innerHTML).trim()
+//     let element = e.target.parentNode.parentNode
+//     if( element.tagName != 'TR'){
+//         element = element.parentNode
+//     }
+//     // console.log( (element.querySelector('.no').innerHTML).trim() )
+//     let lastDrip = (element.querySelector('.no').innerHTML).trim()
 
-    chrome.storage.sync.get( ['lastDrip'] , (result) =>{
-        // console.log(result , lastDrip , parseInt(result.lastDrip) < parseInt(lastDrip) )
+//     chrome.storage.sync.get( ['lastDrip'] , (result) =>{
+//         // console.log(result , lastDrip , parseInt(result.lastDrip) < parseInt(lastDrip) )
 
-        if(parseInt(result.lastDrip) < parseInt(lastDrip) ) {
-            chrome.storage.sync.set( {'lastDrip' : lastDrip }, () => {
-                console.log('set to drip :' , lastDrip)
-           })
-        }
-    })
-})
+//         if(parseInt(result.lastDrip) < parseInt(lastDrip) ) {
+//             chrome.storage.sync.set( {'lastDrip' : lastDrip }, () => {
+//                 console.log('set to drip :' , lastDrip)
+//            })
+//         }
+//     })
+// })

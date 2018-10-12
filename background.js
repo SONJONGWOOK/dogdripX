@@ -3,105 +3,70 @@
 let lastViewNo
 let notiLink = []
 let myNotificationID
-
+let time
+let interval = 1
 function loadDoc() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
-            console.log(this)
-          
-            // let t = new DOMParser().parseFromString(this.response.body.innerHTML , "text/xml")
-            // console.log(t)
-            // console.log(this.response.documentElement.innerHTML)
-
-            // console.log(this.response.documentElement.innerHTML)
-            // let doc =  new DOMParser().parseFromString(this.response.documentElement.innerHTML , "text/xml")
-            // console.log(doc)
-            
-            // console.log(this.response.body.innerHTML)
-            // var oSerializer = new XMLSerializer();
-            // var sXML = oSerializer.serializeToString(this.response.body);
-            // console.log(sXML)
-
-            // var div =  document.createElement("div");
-            // div.innerHTML = sXML;
-
-            // console.log(div)
-            // console.log(this.response.body)
-            parserElement(this.response)
-            // let t = new DOMParser().parseFromString(this.response.body.innerHTML , "text/xml")
-            // console.log(t)
-            // parserBoard(this.response.documentElement.innerHTML)
-        
-        
+        parserElement(this.response)
       }
-    };
+    }
     xhttp.open("GET", "https://www.dogdrip.net/dogdrip");
     // xhr.open("GET", "https://www.dogdrip.net/dogdrip", true);
     xhttp.responseType = "document";
-    xhttp.send();
-
+    xhttp.send()
 }
-
-
 
 const parserElement = (response) =>{
     let body = response.body
     let list = body.querySelector('tbody').querySelectorAll('tr')
-     processStorage(callBack , list)
-    console.log(notiLink)
+    notiLink = []
+    processStorage(callBack , list)
+    
 
 }
-
 const processStorage = (callback , list) =>{
     let lastDrip 
 
     chrome.storage.sync.get( (items) => {
         lastDrip = callback(items['lastDrip'])
-
+        // console.log(parseInt(lastDrip)+1)
         for(let key of list){
-        
+            // console.log(key)
             let listNo = (key.querySelector('.no').innerHTML).trim()
-    
-            console.log(lastDrip , parseInt(listNo) )
-            console.log(parseInt(lastDrip) > parseInt(listNo) )
-            if( parseInt(lastDrip) == parseInt(listNo) ) {
-                return
+            // console.log(parseInt(lastDrip)+1  , parseInt(listNo) )
+            if( parseInt(lastDrip)+1 == parseInt(listNo) ) {
+                break
             }
             
             let link = {
                 title : key.querySelector('span.title-link').innerHTML ,
                 link : key.querySelector('a').href
             }
-    
+            
             notiLink.push(link)
         }
-        console.log(lastDrip)
+      
+        chrome_notification_create()
     })
 }
-
 const callBack = (items) =>{
     return items
 }
 
-
-
 const chrome_notification_create = () => {
-       
-    var options = {
-            type : "basic",
-            title : "User Update",
-            message: "Dear User XYZ U have recieved an update",
-            iconUrl: "outsourcing.png"
-    }
+      
     
+    if(notiLink.length <= 0) return
+
     chrome.notifications.create(
-            'id1',
+            'dogdrip',
             {
                 type:'basic',
                 iconUrl:chrome.runtime.getURL("doge48.png"),
                 title : "dogdrip",
-                message: "test notification",
+                message: "dogdrip Notification",
                 priority:1,
                 buttons:[{
                         title: notiLink[0].title
@@ -116,6 +81,8 @@ const chrome_notification_create = () => {
             },
             (id) => {
                 myNotificationID  = id
+                setTimeout( () =>
+                {chrome.notifications.clear(id);}, 3000);
                 // console.log(chrome.runtime.lastError);
             }
         )
@@ -135,16 +102,38 @@ chrome.notifications.onButtonClicked.addListener(function(notifId, btnIdx) {
     } 
 })
 
- chrome.extension.onConnect.addListener( (port) => {
-    console.log("Connected .....")
+chrome.extension.onConnect.addListener( (port) => {
+    // console.log("Connected .....")
     port.onMessage.addListener( (msg) => {
-         console.log("message recieved" + msg)
-         chrome_notification_create()
-        //  port.postMessage("Hi Popup.js");
-  
-  
+       
+        if(msg.interval){
+            // console.log('interval on')
+            // console.log(new Date().toLocaleTimeString() )
+            // console.log(interval)
+            if(interval == 1 ) {
+                notificationInerval(msg.timer)  
+            } 
+
+        }else{
+            // console.log('interval off')
+            clearInterval(interval)
+            // console.log(interval)
+        }
+        
     });
+
+
 })
 
+//분단위
+const notificationInerval = (setTime) =>{
 
-loadDoc()
+    if(setTime == undefined || setTime == null || setTime.trim() == '' ){
+        setTime = 1
+    }
+    // console.log('interval timer ' , setTime)
+    interval = setInterval( ()=>{
+        loadDoc()
+        // console.log(new Date().toLocaleTimeString() )
+    }, parseInt(setTime)*60000) 
+}
