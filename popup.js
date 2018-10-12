@@ -30,18 +30,17 @@ document.querySelector('#noti').addEventListener('change' , () =>{
     }
 
     chrome.storage.sync.set( {'interval' : check }, () => {
-        // console.log('set to ' , check)
+        console.log('set to ' , check)
     })
     chrome.storage.sync.set( {'intervalTime' : timer }, () => {
-        // console.log('set to ' , check)
+        console.log('set to ' , timer)
     })
 
     let set = { interval : check , timer : timer}
-    
     let port = chrome.extension.connect({
         // name: "Sample Communication"
     })
-    // console.log(set)
+    console.log(set)
     port.postMessage(set)
     
     port.onMessage.addListener(function(msg) {
@@ -93,15 +92,17 @@ chrome.storage.sync.get('type' , (result) =>{
 
 })
 
-chrome.storage.sync.get('interval' , (result) =>{
+chrome.storage.sync.get('intervalTime' , (result) =>{
+    timer = result.intervalTime
+    console.log(timer)
+    document.querySelector('#timer').value  = timer
     
+})  
+
+chrome.storage.sync.get('interval' , (result) =>{ 
+    console.log(result.interval)
     if(result.interval){
         document.querySelector('#noti').click()
     }
 })
 
-chrome.storage.sync.get('intervalTime' , (result) =>{
-    
-    timer = result.intervalTime
-    document.querySelector('#timer').value  = timer
-})

@@ -4,7 +4,7 @@ let lastViewNo
 let notiLink = []
 let myNotificationID
 let time
-let interval = 1
+let interval = 0
 function loadDoc() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
@@ -107,16 +107,18 @@ chrome.extension.onConnect.addListener( (port) => {
     port.onMessage.addListener( (msg) => {
        
         if(msg.interval){
-            // console.log('interval on')
-            // console.log(new Date().toLocaleTimeString() )
-            // console.log(interval)
-            if(interval == 1 ) {
+            console.log('interval on')
+            console.log(new Date().toLocaleTimeString() )
+            console.log(interval)
+            
+            if(interval  == 0 ) {
                 notificationInerval(msg.timer)  
             } 
 
         }else{
-            // console.log('interval off')
+            console.log('interval off')
             clearInterval(interval)
+            interval = 0
             // console.log(interval)
         }
         
@@ -127,13 +129,13 @@ chrome.extension.onConnect.addListener( (port) => {
 
 //분단위
 const notificationInerval = (setTime) =>{
-
+    console.log(setTime)
     if(setTime == undefined || setTime == null || setTime.trim() == '' ){
-        setTime = 1
+        setTime = 10
     }
-    // console.log('interval timer ' , setTime)
+    console.log('interval timer ' , setTime)
     interval = setInterval( ()=>{
         loadDoc()
-        // console.log(new Date().toLocaleTimeString() )
+        console.log(new Date().toLocaleTimeString() )
     }, parseInt(setTime)*60000) 
 }
