@@ -31,12 +31,11 @@ const processStorage = (callback , list) =>{
 
     chrome.storage.sync.get( (items) => {
         lastDrip = callback(items['lastDrip'])
-        // console.log(parseInt(lastDrip)+1)
         for(let key of list){
             // console.log(key)
             let listNo = (key.querySelector('.no').innerHTML).trim()
-            // console.log(parseInt(lastDrip)+1  , parseInt(listNo) )
-            if( parseInt(lastDrip)+1 == parseInt(listNo) ) {
+            // console.log(parseInt(lastDrip)+1 , listNo)
+            if( parseInt(lastDrip)+1 >= parseInt(listNo) ) {
                 break
             }
             
@@ -45,6 +44,7 @@ const processStorage = (callback , list) =>{
                 link : key.querySelector('a').href
             }
             
+            // console.log(notiLink )
             notiLink.push(link)
         }
       
@@ -109,7 +109,7 @@ chrome.extension.onConnect.addListener( (port) => {
         if(msg.interval){
             console.log('interval on')
             console.log(new Date().toLocaleTimeString() )
-            console.log(interval)
+            // console.log(interval)
             
             if(interval  == 0 ) {
                 notificationInerval(msg.timer)  
@@ -118,8 +118,8 @@ chrome.extension.onConnect.addListener( (port) => {
         }else{
             console.log('interval off')
             clearInterval(interval)
-            interval = 0
             // console.log(interval)
+            interval = 0
         }
         
     });
@@ -129,7 +129,7 @@ chrome.extension.onConnect.addListener( (port) => {
 
 //분단위
 const notificationInerval = (setTime) =>{
-    console.log(setTime)
+    // console.log(setTime)
     if(setTime == undefined || setTime == null || setTime.trim() == '' ){
         setTime = 10
     }
