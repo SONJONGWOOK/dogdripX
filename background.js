@@ -34,8 +34,8 @@ const processStorage = (callback , list) =>{
         for(let key of list){
             // console.log(key)
             let listNo = (key.querySelector('.no').innerHTML).trim()
-            // console.log(parseInt(lastDrip)+1 , listNo)
-            if( parseInt(lastDrip)+1 >= parseInt(listNo) ) {
+            console.log(parseInt(lastDrip)+1 , listNo)
+            if( parseInt(lastDrip)+1 > parseInt(listNo) ) {
                 break
             }
             

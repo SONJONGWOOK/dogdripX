@@ -1,7 +1,7 @@
 {
   "name": "DogDripX beta",
   "description": "dogrip extension beta",
-  "version": "0.12345",
+  "version": "0.123456",
   "permissions": [
     "activeTab" ,
      "storage",
@@ -29,7 +29,7 @@
   },
   "background": {
     "scripts": ["background.js"],
-    "persistent": false
+    "persistent": true
   },
   
   "content_security_policy": "script-src 'self' https://code.jquery.com https://cdnjs.cloudflare.com/ https://stackpath.bootstrapcdn.com;  object-src 'self'",
