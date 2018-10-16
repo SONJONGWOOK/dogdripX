@@ -24,14 +24,23 @@ if(url.match(/www.dogdrip.net\/[0-9]+/gi) != null ){
    let isDogdrip =  document.querySelector('a.title-underline').innerHTML == '개드립' ? true : false
    let element = document.querySelector('td.ed.no svg').parentNode.parentNode.nextSibling
 //    console.log(element.tagName)
+   let lastView 
+   if(element.tagName == undefined){
+    element = document.querySelector('td.ed.no svg').parentNode.parentNode.previousSibling
+    lastView = true
+   }
    if(isDogdrip && element.tagName == 'TR') {
     let lastDrip = (element.querySelector('.no').innerHTML).trim()      
     chrome.storage.sync.get( ['lastDrip'] , (result) =>{
+        
+        if(lastView){
+            lastDrip = parseInt(lastDrip)-2
+        }
         // console.log(result , lastDrip , parseInt(result.lastDrip) < parseInt(lastDrip) )
-
-         if(parseInt(result.lastDrip) < parseInt(lastDrip) ) {
+         if(parseInt(result.lastDrip) < parseInt(lastDrip) || result == undefined || result == null || result.length == 0 ) {
             chrome.storage.sync.set( {'lastDrip' : lastDrip }, () => {
                 // console.log('set to drip :' , lastDrip)
+
            })
         }
     })
@@ -217,28 +226,3 @@ chrome.runtime.onMessage.addListener(msgObj => {
    type = msgObj
 })
 
-// NodeList prototype
-// NodeList.prototype.addEventListener = function(event, func) {
-//     this.forEach(function(content, item) {
-//        content.addEventListener(event, func);
-//     })
-// }
-// document.querySelectorAll('td.title a').addEventListener('click' , (e , func) =>{
-
-//     let element = e.target.parentNode.parentNode
-//     if( element.tagName != 'TR'){
-//         element = element.parentNode
-//     }
-//     // console.log( (element.querySelector('.no').innerHTML).trim() )
-//     let lastDrip = (element.querySelector('.no').innerHTML).trim()
-
-//     chrome.storage.sync.get( ['lastDrip'] , (result) =>{
-//         // console.log(result , lastDrip , parseInt(result.lastDrip) < parseInt(lastDrip) )
-
-//         if(parseInt(result.lastDrip) < parseInt(lastDrip) ) {
-//             chrome.storage.sync.set( {'lastDrip' : lastDrip }, () => {
-//                 console.log('set to drip :' , lastDrip)
-//            })
-//         }
-//     })
-// })
